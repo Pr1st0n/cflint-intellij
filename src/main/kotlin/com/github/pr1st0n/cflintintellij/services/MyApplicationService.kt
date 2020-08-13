@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.pr1st0n.cflintintellij.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.pr1st0n.cflintintellij.MyBundle
 
 class MyApplicationService {
 
