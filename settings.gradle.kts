@@ -1,1 +1,1 @@
-rootProject.name = "cflint-intellij"
+rootProject.name = "cflint"

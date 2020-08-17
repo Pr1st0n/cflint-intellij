@@ -1,19 +1,16 @@
 <idea-plugin>
-    <id>com.github.pr1st0n.cflintintellij</id>
-    <name>cflint-intellij</name>
-    <vendor>pr1st0n</vendor>
+    <id>com.github.pr1st0n.cflint</id>
+    <name>CFLint</name>
+    <vendor>https://github.com/Pr1st0n</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>CFML Support</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.pr1st0n.cflintintellij.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.pr1st0n.cflintintellij.services.MyProjectService"/>
+        <localInspection displayName="CFLint" groupPath="CFML" id="CFLint" language="CFML"
+                         groupName="General" enabledByDefault="true" level="WARNING"
+                         implementationClass="com.github.pr1st0n.cflint.CFLintInspection"/>
     </extensions>
-
-    <projectListeners>
-        <listener class="com.github.pr1st0n.cflintintellij.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </projectListeners>
 </idea-plugin>

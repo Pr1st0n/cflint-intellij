@@ -1,13 +1,13 @@
-package com.github.pr1st0n.cflintintellij
+package com.github.pr1st0n.cflint
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 
 @NonNls
-private const val BUNDLE = "messages.MyBundle"
+private const val BUNDLE = "messages.CFLintBundle"
 
-object MyBundle : AbstractBundle(BUNDLE) {
+object CFLintBundle : AbstractBundle(BUNDLE) {
 
     @Suppress("SpreadOperator")
     @JvmStatic

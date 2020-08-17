@@ -38,6 +38,9 @@ repositories {
     jcenter()
 }
 dependencies {
+    implementation("com.github.cflint:CFLint:1.5.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.13.3")
+    implementation("org.apache.logging.log4j:log4j-core:2.13.3")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.10.0")
 }
 
@@ -54,6 +57,7 @@ intellij {
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
 //
 //  setPlugins("java")
+    setPlugins("CFML Support:202.6397.59")
 }
 
 // Configure detekt plugin.
