@@ -6,6 +6,7 @@ import com.cflint.config.CFLintChainedConfig
 import com.cflint.config.CFLintConfig
 import com.cflint.config.CFLintConfiguration
 import com.cflint.config.ConfigUtils
+import com.cflint.exception.CFLintConfigurationException
 import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemDescriptor
@@ -24,7 +25,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         if (file !is CfmlFile) return null
 
         val descriptors = SmartList<ProblemDescriptor>()
-        var config = getConfig(manager.project.basePath)
+        val config = getConfig(manager.project.basePath)
 
         try {
             val api = CFLintAPI(config)
@@ -37,9 +38,9 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
                         file,
                         getTextRange(issue),
                         issue.message,
-                        getHighlightType(issue.messageCode),
+                        getHighlightType(issue.severity.name),
                         isOnTheFly,
-                        null // TODO: implement quickfixes when possible
+                        null
                     )
                     descriptors.add(descriptor)
                 }
@@ -47,9 +48,8 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         } catch (e: ProcessCanceledException) {
             // We should not swallow "ProcessCanceledException"
             throw e
-        } catch (e: Exception) {
-            // Ignore
-            // TODO: CFLintAPI() throws NPE on first function run
+        } catch (e: CFLintConfigurationException) {
+            // Ignore CFLintAPI() throwing NPE on first function run
         }
 
         return descriptors.toArray(ProblemDescriptor.EMPTY_ARRAY)
@@ -58,6 +58,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
     private fun getConfig(basePath: String?): CFLintConfiguration {
         var config = CFLintChainedConfig(CFLintConfig.createDefault())
 
+        @Suppress("TooGenericExceptionCaught")
         try {
             val baseConfig = File("$basePath/.cflintrc")
             if (baseConfig.exists()) {
@@ -73,27 +74,66 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         return config
     }
 
-    private fun getHighlightType(codeMessage: String): ProblemHighlightType {
-        return when(codeMessage) {
-            "WARNING" -> ProblemHighlightType.WARNING
+    private fun getHighlightType(severity: String): ProblemHighlightType {
+        return when (severity) {
             "ERROR" -> ProblemHighlightType.ERROR
+            "WARNING" -> ProblemHighlightType.WARNING
             else -> ProblemHighlightType.WEAK_WARNING
         }
     }
 
+    @Suppress("ComplexMethod")
     private fun getTextRange(issue: BugInfo): TextRange? {
-        // TODO: extend range logic
+        @Suppress("MagicNumber")
+        val variableOffset = 7
+        // Full list of rules: https://github.com/cflint/CFLint/blob/master/RULES.md
         return when (issue.messageCode) {
-            "FUNCTION_HINT_MISSING" -> {
-                val from = issue.offset + 1
-                TextRange.create(from, from + "cffunction".length)
+            "ARG_VAR_CONFLICT" -> {
+                val from = issue.offset + variableOffset
+                TextRange.create(from, from + issue.variable.length)
+            }
+            "AVOID_USING_ARRAYNEW" -> {
+                TextRange.create(issue.offset, issue.offset + issue.expression.length)
+            }
+            "AVOID_USING_STRUCTNEW" -> {
+                val from = issue.offset + variableOffset
+                TextRange.create(from, from + issue.expression.length)
             }
             "COMPONENT_HINT_MISSING" -> {
                 val from = issue.offset + 1
                 TextRange.create(from, from + "cfcomponent".length)
             }
-            else -> {
+            "FILE_SHOULD_START_WITH_LOWERCASE" -> {
+                null
+            }
+            "FUNCTION_HINT_MISSING" -> {
+                val from = issue.offset + 1
+                TextRange.create(from, from + "cffunction".length)
+            }
+            "MISSING_VAR" -> {
+                var from = issue.offset
+                if (issue.variable == issue.expression) {
+                    from += variableOffset
+                }
+                TextRange.create(from, from + issue.variable.length)
+            }
+            "MISSING_SEMI" -> {
                 TextRange.create(issue.offset, issue.offset + issue.expression.length)
+            }
+            "NESTED_CFOUTPUT" -> {
+                TextRange.create(issue.offset, issue.offset + issue.expression.length)
+            }
+            "OUTPUT_ATTR" -> {
+                TextRange.create(issue.offset, issue.offset + issue.expression.substringBefore("\n").length)
+            }
+            "SQL_SELECT_STAR" -> {
+                TextRange.create(issue.offset, issue.offset + issue.expression.length)
+            }
+            "UNUSED_LOCAL_VARIABLE" -> {
+                TextRange.create(issue.offset, issue.offset + issue.variable.length)
+            }
+            else -> {
+                TextRange.create(issue.offset, issue.offset + issue.expression.substringBefore("\n").length)
             }
         }
     }
