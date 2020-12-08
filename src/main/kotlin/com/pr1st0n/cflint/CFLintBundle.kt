@@ -1,4 +1,4 @@
-package com.github.pr1st0n.cflint
+package com.pr1st0n.cflint
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls

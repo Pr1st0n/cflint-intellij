@@ -1,11 +1,7 @@
-package com.github.pr1st0n.cflint
+package com.pr1st0n.cflint
 
 import com.cflint.BugInfo
 import com.cflint.api.CFLintAPI
-import com.cflint.config.CFLintChainedConfig
-import com.cflint.config.CFLintConfig
-import com.cflint.config.CFLintConfiguration
-import com.cflint.config.ConfigUtils
 import com.cflint.exception.CFLintConfigurationException
 import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
@@ -18,14 +14,17 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
-import java.io.File
 
 class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
+    companion object {
+        var STATE = CFLintState()
+    }
+
     override fun checkFile(file: PsiFile, manager: InspectionManager, isOnTheFly: Boolean): Array<ProblemDescriptor>? {
         if (file !is CfmlFile) return null
 
         val descriptors = SmartList<ProblemDescriptor>()
-        val config = getConfig(manager.project.basePath)
+        val config = CFLintConfiguration().getConfig(manager.project.basePath)
 
         try {
             val api = CFLintAPI(config)
@@ -55,28 +54,9 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         return descriptors.toArray(ProblemDescriptor.EMPTY_ARRAY)
     }
 
-    private fun getConfig(basePath: String?): CFLintConfiguration {
-        var config = CFLintChainedConfig(CFLintConfig.createDefault())
-
-        @Suppress("TooGenericExceptionCaught")
-        try {
-            val baseConfig = File("$basePath/.cflintrc")
-            if (baseConfig.exists()) {
-                val jsonInputStream = baseConfig.inputStream()
-                val retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig::class.java)
-                jsonInputStream.close()
-                config = config.createNestedConfig(retval)
-            }
-        } catch (e: Exception) {
-            // Ignore and use default config
-        }
-
-        return config
-    }
-
     private fun getHighlightType(severity: String): ProblemHighlightType {
         return when (severity) {
-            "ERROR" -> ProblemHighlightType.ERROR
+            "ERROR" -> ProblemHighlightType.GENERIC_ERROR
             "WARNING" -> ProblemHighlightType.WARNING
             else -> ProblemHighlightType.WEAK_WARNING
         }
