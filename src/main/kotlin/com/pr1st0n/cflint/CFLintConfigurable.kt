@@ -1,6 +1,7 @@
 package com.pr1st0n.cflint
 
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.project.Project
 import com.intellij.ui.components.panels.HorizontalLayout
 import com.intellij.ui.components.panels.VerticalLayout
 import javax.swing.JCheckBox
@@ -8,17 +9,14 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.SwingConstants
 
-class CFLintConfigurable : SearchableConfigurable {
-    companion object {
-        private const val SETTINGS_CFML_CFLINT = "reference.plugin.settings.project.settings.cfml.cflint"
-    }
+class CFLintConfigurable(private val myProject: Project) : SearchableConfigurable {
+    private var myLintEnabled = JCheckBox("Enable")
 
     override fun createComponent(): JComponent {
         val panel = JPanel(VerticalLayout(1, SwingConstants.LEFT))
         val row = JPanel(HorizontalLayout(1, SwingConstants.CENTER))
-        val enableCheckbox = JCheckBox("Enable")
 
-        row.add(enableCheckbox)
+        row.add(this.myLintEnabled)
         panel.add(row)
 
         reset()
@@ -27,13 +25,24 @@ class CFLintConfigurable : SearchableConfigurable {
     }
 
     override fun isModified(): Boolean {
-        return false
+        val originalState = CFLintConfiguration.getInstance(myProject).state
+        val currentState = CFLintState()
+
+        currentState.setEnabled(this.myLintEnabled.isSelected)
+
+        return currentState != originalState
     }
 
     override fun apply() {
-        val state = CFLintInspection.STATE
+        val state = CFLintState()
+        state.setEnabled(this.myLintEnabled.isSelected)
+        state.setCustomRules(emptyList())
+        CFLintConfiguration.getInstance(myProject).loadState(state)
+    }
 
-        state.setEnabled(true)
+    override fun reset() {
+        val state = CFLintConfiguration.getInstance(myProject).state
+        this.myLintEnabled.isSelected = state.getEnabled()
     }
 
     override fun getDisplayName(): String {
@@ -41,6 +50,10 @@ class CFLintConfigurable : SearchableConfigurable {
     }
 
     override fun getId(): String {
-        return SETTINGS_CFML_CFLINT
+        return this.helpTopic
+    }
+
+    override fun getHelpTopic(): String {
+        return "reference.plugin.settings.project.settings.cfml.cflint"
     }
 }

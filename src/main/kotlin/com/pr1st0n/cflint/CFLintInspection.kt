@@ -16,15 +16,13 @@ import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
 
 class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
-    companion object {
-        var STATE = CFLintState()
-    }
-
     override fun checkFile(file: PsiFile, manager: InspectionManager, isOnTheFly: Boolean): Array<ProblemDescriptor>? {
-        if (file !is CfmlFile) return null
+        val configuration = CFLintConfiguration.getInstance(manager.project)
+
+        if (file !is CfmlFile || !configuration.state.getEnabled()) return null
 
         val descriptors = SmartList<ProblemDescriptor>()
-        val config = CFLintConfiguration().getConfig(manager.project.basePath)
+        val config = configuration.getConfig(manager.project.basePath, true)
 
         try {
             val api = CFLintAPI(config)

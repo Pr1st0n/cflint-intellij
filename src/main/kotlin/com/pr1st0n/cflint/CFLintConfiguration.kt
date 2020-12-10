@@ -1,28 +1,90 @@
 package com.pr1st0n.cflint
 
-import com.cflint.config.CFLintChainedConfig
 import com.cflint.config.CFLintConfig
 import com.cflint.config.CFLintConfiguration
+import com.cflint.config.CFLintPluginInfo
 import com.cflint.config.ConfigUtils
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.components.State
+import com.intellij.openapi.project.Project
 import java.io.File
 
-class CFLintConfiguration {
+@State(name = "CFLintConfiguration")
+class CFLintConfiguration : PersistentStateComponent<CFLintState> {
+    private var config = CFLintConfig()
+    private var initialized = false
+    private var myState = CFLintState()
+
+    companion object {
+        fun getInstance(project: Project): com.pr1st0n.cflint.CFLintConfiguration {
+            return ServiceManager.getService(project, com.pr1st0n.cflint.CFLintConfiguration::class.java)
+        }
+    }
+
     fun getConfig(basePath: String?): CFLintConfiguration {
-        var config = CFLintChainedConfig(CFLintConfig.createDefault())
+        if (!this.initialized && !setCustomRules() && !setBaseConfig(basePath)) {
+            setDefaultConfig()
+        }
+
+        return this.config
+    }
+
+    fun getConfig(basePath: String?, reload: Boolean): CFLintConfiguration {
+        if (reload) {
+            this.initialized = false
+        }
+
+        return this.getConfig(basePath)
+    }
+
+    private fun setBaseConfig(basePath: String?): Boolean {
+        val baseConfig = File("$basePath/.cflintrc")
+
+        if (!baseConfig.exists()) {
+            return false
+        }
 
         @Suppress("TooGenericExceptionCaught")
         try {
-            val baseConfig = File("$basePath/.cflintrc")
-            if (baseConfig.exists()) {
-                val jsonInputStream = baseConfig.inputStream()
-                val retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig::class.java)
-                jsonInputStream.close()
-                config = config.createNestedConfig(retval)
-            }
+            val jsonInputStream = baseConfig.inputStream()
+            val retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig::class.java)
+            jsonInputStream.close()
+            setDefaultConfig()
+            this.config.includes = retval.includes
         } catch (e: Exception) {
-            // Ignore and use default config
+            return false
         }
 
-        return config
+        return true
+    }
+
+    private fun setCustomRules(): Boolean {
+        val rules = this.myState.getCustomRules()
+
+        if (rules == null || rules.isEmpty()) {
+            return false
+        }
+
+        setDefaultConfig()
+
+        rules.forEach {
+            this.config.addInclude(CFLintPluginInfo.PluginInfoRule.PluginMessage(it))
+        }
+
+        return true
+    }
+
+    private fun setDefaultConfig() {
+        this.config = CFLintConfig.createDefault() as CFLintConfig
+        this.initialized = true
+    }
+
+    override fun getState(): CFLintState {
+        return myState
+    }
+
+    override fun loadState(state: CFLintState) {
+        myState = state
     }
 }

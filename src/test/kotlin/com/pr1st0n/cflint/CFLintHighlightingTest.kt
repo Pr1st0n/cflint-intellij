@@ -21,14 +21,28 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
         myFixture.enableInspections(CFLintInspection())
     }
 
-    // UNUSED_LOCAL_VARIABLE
     fun testUnusedLocalVar() {
-        doTest()
+        val defaultState = CFLintConfiguration.getInstance(project).state
+        val state = CFLintState()
+        state.setCustomRules(listOf("UNUSED_LOCAL_VARIABLE"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(defaultState)
+        }
     }
 
-    // ARG_VAR_CONFLICT
     fun testArgVarChecker() {
-        doTest()
+        val defaultState = CFLintConfiguration.getInstance(project).state
+        val state = CFLintState()
+        state.setCustomRules(listOf("ARG_VAR_CONFLICT"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(defaultState)
+        }
     }
 
     private fun doTest() {

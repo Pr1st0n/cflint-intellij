@@ -6,3 +6,11 @@ formatting:
     continuationIndentSize: 8
   ParameterListWrapping:
     indentSize: 8
+style:
+  ReturnCount:
+    active: true
+    max: 3
+    excludedFunctions: 'equals'
+    excludeLabeled: false
+    excludeReturnFromLambda: true
+    excludeGuardClauses: false

@@ -9,7 +9,9 @@
     <depends>CFML Support</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectConfigurable instance="com.pr1st0n.cflint.CFLintConfigurable"
+        <projectService serviceImplementation="com.pr1st0n.cflint.CFLintConfiguration"/>
+        <projectConfigurable displayName="CFLint"
+                             instance="com.pr1st0n.cflint.CFLintConfigurable"
                              parentId="reference.plugin.settings.project.settings.cfml"
                              nonDefaultProject="true"/>
         <localInspection displayName="CFLint" groupPath="CFML" id="CFLint" language="CFML"
