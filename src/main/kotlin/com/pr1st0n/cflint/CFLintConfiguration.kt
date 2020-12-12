@@ -47,11 +47,11 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
 
         @Suppress("TooGenericExceptionCaught")
         try {
-            val jsonInputStream = baseConfig.inputStream()
-            val retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig::class.java)
-            jsonInputStream.close()
-            setDefaultConfig()
-            this.config.includes = retval.includes
+            baseConfig.inputStream().use { jsonInputStream ->
+                val retVal = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig::class.java)
+                setDefaultConfig()
+                this.config.includes = retVal.includes
+            }
         } catch (e: Exception) {
             return false
         }
