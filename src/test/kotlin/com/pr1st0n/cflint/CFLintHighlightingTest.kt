@@ -3,6 +3,8 @@ package com.pr1st0n.cflint
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 class CFLintHighlightingTest : BasePlatformTestCase() {
+    private lateinit var myState: CFLintState
+
     override fun getTestDataPath(): String {
         return basePath
     }
@@ -19,29 +21,94 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
     override fun setUp() {
         super.setUp()
         myFixture.enableInspections(CFLintInspection())
-    }
-
-    fun testUnusedLocalVar() {
-        val defaultState = CFLintConfiguration.getInstance(project).state
-        val state = CFLintState()
-        state.setCustomRules(listOf("UNUSED_LOCAL_VARIABLE"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(defaultState)
-        }
+        myState = CFLintConfiguration.getInstance(project).state
     }
 
     fun testArgVarChecker() {
-        val defaultState = CFLintConfiguration.getInstance(project).state
         val state = CFLintState()
         state.setCustomRules(listOf("ARG_VAR_CONFLICT"))
         try {
             CFLintConfiguration.getInstance(project).loadState(state)
             doTest()
         } finally {
-            CFLintConfiguration.getInstance(project).loadState(defaultState)
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testArrayNewChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("AVOID_USING_ARRAYNEW"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testNestedCFOutput() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("NESTED_CFOUTPUT"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testOutputParmMissing() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("OUTPUT_ATTR"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testSelectStarChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("SQL_SELECT_STAR"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testStructNewChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("AVOID_USING_STRUCTNEW"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testVarScoper() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("MISSING_VAR"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testUnusedLocalVar() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("UNUSED_LOCAL_VARIABLE"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
         }
     }
 

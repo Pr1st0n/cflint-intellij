@@ -1,3 +1,3 @@
-<cffunction name="unusedLocalVar">
-    <cfset var <weak_warning descr="Local variable isUsed is not used in function unusedLocalVar. Consider removing it.">isUsed</weak_warning> = false>
+<cffunction name="testFun">
+    <cfset var <weak_warning descr="Local variable testVar is not used in function testFun. Consider removing it.">testVar</weak_warning> = 0>
 </cffunction>
