@@ -3,17 +3,18 @@ package com.pr1st0n.cflint
 import com.cflint.BugInfo
 import com.cflint.api.CFLintAPI
 import com.cflint.exception.CFLintConfigurationException
+import com.cflint.exception.CFLintScanException
 import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ex.UnfairLocalInspectionTool
 import com.intellij.coldFusion.model.files.CfmlFile
-import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
+import com.intellij.workspaceModel.storage.impl.EntityStorageSerializerImpl.Companion.logger
 
 class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
     override fun checkFile(file: PsiFile, manager: InspectionManager, isOnTheFly: Boolean): Array<ProblemDescriptor>? {
@@ -22,7 +23,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         if (file !is CfmlFile || !configuration.state.getEnabled()) return null
 
         val descriptors = SmartList<ProblemDescriptor>()
-        val config = configuration.getConfig(manager.project.basePath, true)
+        val config = configuration.getConfig(manager.project.basePath, false)
 
         try {
             val api = CFLintAPI(config)
@@ -42,11 +43,10 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
                     descriptors.add(descriptor)
                 }
             }
-        } catch (e: ProcessCanceledException) {
-            // We should not swallow "ProcessCanceledException"
-            throw e
+        } catch (e: CFLintScanException) {
+            logger.error("Unexpected CFLint error during file scan")
         } catch (e: CFLintConfigurationException) {
-            // Ignore CFLintAPI() throwing NPE on first function run
+            logger.error("Invalid CFLint Configuration")
         }
 
         return descriptors.toArray(ProblemDescriptor.EMPTY_ARRAY)

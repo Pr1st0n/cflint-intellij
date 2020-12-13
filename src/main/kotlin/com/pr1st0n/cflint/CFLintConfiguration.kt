@@ -22,7 +22,7 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
         }
     }
 
-    fun getConfig(basePath: String?): CFLintConfiguration {
+    private fun getConfig(basePath: String?): CFLintConfiguration {
         if (!this.initialized && !setCustomRules() && !setBaseConfig(basePath)) {
             setDefaultConfig()
         }
@@ -86,5 +86,6 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
 
     override fun loadState(state: CFLintState) {
         myState = state
+        initialized = false
     }
 }
