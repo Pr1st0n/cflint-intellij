@@ -3,6 +3,18 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.1.1]
 
 ## [0.1.1]
 ### Added
