@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.1]
+### Added
+- Plugin ID
+### Changed
+- Plugin icon
+
 ## [0.1.0]
 ### Added
 - Base [CFLint](https://github.com/cflint/CFLint) configuration support
