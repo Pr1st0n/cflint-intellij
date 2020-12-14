@@ -1,8 +1,8 @@
 # CFLint Plugin for IntelliJ IDEA Ultimate
 
 ![Build](https://github.com/Pr1st0n/cflint-intellij/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/15567)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/15567)
 
 <!-- Plugin description -->
 This plugin provides support for Coldfusion static code analyzer [CFLint](https://github.com/cflint/CFLint) in IntelliJ IDEA Ultimate.
