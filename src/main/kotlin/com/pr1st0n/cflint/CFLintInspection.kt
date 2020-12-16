@@ -10,13 +10,15 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ex.UnfairLocalInspectionTool
 import com.intellij.coldFusion.model.files.CfmlFile
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
-import com.intellij.workspaceModel.storage.impl.EntityStorageSerializerImpl.Companion.logger
 
 class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
+    private val logger = Logger.getInstance("CFLint.CFLintInspection")
+
     override fun checkFile(file: PsiFile, manager: InspectionManager, isOnTheFly: Boolean): Array<ProblemDescriptor>? {
         val configuration = CFLintConfiguration.getInstance(manager.project)
 

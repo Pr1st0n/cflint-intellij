@@ -3,9 +3,8 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
-### Added
-
-### Changed
+### Fixed
+- Logger compatibility issue
 
 ## [0.1.1]
 ### Added
