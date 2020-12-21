@@ -24,9 +24,20 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
         myState = CFLintConfiguration.getInstance(project).state
     }
 
-    fun testArgVarChecker() {
+    fun testArgVarCheckerConflict() {
         val state = CFLintState()
         state.setCustomRules(listOf("ARG_VAR_CONFLICT"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testArgVarCheckerMixed() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("ARG_VAR_MIXED"))
         try {
             CFLintConfiguration.getInstance(project).loadState(state)
             doTest()
@@ -38,6 +49,39 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
     fun testArrayNewChecker() {
         val state = CFLintState()
         state.setCustomRules(listOf("AVOID_USING_ARRAYNEW"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testBuiltInFunctionChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("AVOID_USING_ISDATE"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testDebugAttributeChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("AVOID_USING_DEBUG_ATTR"))
+        try {
+            CFLintConfiguration.getInstance(project).loadState(state)
+            doTest()
+        } finally {
+            CFLintConfiguration.getInstance(project).loadState(myState)
+        }
+    }
+
+    fun testIncludeChecker() {
+        val state = CFLintState()
+        state.setCustomRules(listOf("AVOID_USING_CFINCLUDE_TAG"))
         try {
             CFLintConfiguration.getInstance(project).loadState(state)
             doTest()

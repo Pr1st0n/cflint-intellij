@@ -11,8 +11,10 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ex.UnfairLocalInspectionTool
 import com.intellij.coldFusion.model.files.CfmlFile
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
 
@@ -26,6 +28,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
 
         val descriptors = SmartList<ProblemDescriptor>()
         val config = configuration.getConfig(manager.project.basePath, false)
+        val document = PsiDocumentManager.getInstance(manager.project).getDocument(file.containingFile)
 
         try {
             val api = CFLintAPI(config)
@@ -36,7 +39,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
                 for (issue in issues) {
                     val descriptor = manager.createProblemDescriptor(
                         file,
-                        getTextRange(issue),
+                        getTextRange(issue, document),
                         issue.message,
                         getHighlightType(issue.severity.name),
                         isOnTheFly,
@@ -62,58 +65,44 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
         }
     }
 
-    @Suppress("ComplexMethod")
-    private fun getTextRange(issue: BugInfo): TextRange? {
-        @Suppress("MagicNumber")
-        val variableOffset = 7
+    private fun getTextRange(issue: BugInfo, document: Document?): TextRange? {
         // Full list of rules: https://github.com/cflint/CFLint/blob/master/RULES.md
         return when (issue.messageCode) {
-            "ARG_VAR_CONFLICT" -> {
-                val from = issue.offset + variableOffset
-                TextRange.create(from, from + issue.variable.length)
-            }
-            "AVOID_USING_ARRAYNEW" -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.length)
-            }
-            "AVOID_USING_STRUCTNEW" -> {
-                val from = issue.offset + variableOffset
-                TextRange.create(from, from + issue.expression.length)
-            }
-            "COMPONENT_HINT_MISSING" -> {
-                val from = issue.offset + 1
-                TextRange.create(from, from + "cfcomponent".length)
-            }
             "FILE_SHOULD_START_WITH_LOWERCASE" -> {
+                // Display in a separate space at the top of the file content
                 null
             }
-            "FUNCTION_HINT_MISSING" -> {
-                val from = issue.offset + 1
-                TextRange.create(from, from + "cffunction".length)
-            }
-            "MISSING_VAR" -> {
-                var from = issue.offset
-                if (issue.variable == issue.expression) {
-                    from += variableOffset
-                }
-                TextRange.create(from, from + issue.variable.length)
-            }
             "MISSING_SEMI" -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.length)
-            }
-            "NESTED_CFOUTPUT" -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.length)
-            }
-            "OUTPUT_ATTR" -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.substringBefore("\n").length)
-            }
-            "SQL_SELECT_STAR" -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.length)
+                // Covered by CFML Support plugin inspection
+                val startOffset = issue.offset + 1
+                TextRange.create(startOffset, startOffset + 1)
             }
             "UNUSED_LOCAL_VARIABLE" -> {
                 TextRange.create(issue.offset, issue.offset + issue.variable.length)
             }
             else -> {
-                TextRange.create(issue.offset, issue.offset + issue.expression.substringBefore("\n").length)
+                // Issue line is 1 based, however document line is 0 based
+                val indexOfExpression: Int?
+                val documentLine = issue.line - 1
+                var startOffset = document?.getLineStartOffset(documentLine) ?: issue.offset
+                val endOffset = document?.getLineEndOffset(documentLine) ?: issue.offset + issue.length
+                val lineText = document?.getText(TextRange.create(startOffset, endOffset))
+                var offsetLength = issue.length
+
+                if (issue.expression != null) {
+                    // Use only 1st line in case of multiline expression to find index of it in lineText
+                    val expression = issue.expression.substringBefore("\n")
+                    indexOfExpression = lineText?.indexOf(expression, 0, true)
+                    offsetLength = issue.expression.length
+                } else {
+                    indexOfExpression = lineText?.indexOf(issue.variable, 0, true)
+                }
+
+                if (indexOfExpression != null && indexOfExpression > 0) {
+                    startOffset += indexOfExpression
+                }
+
+                TextRange.create(startOffset, startOffset + offsetLength)
             }
         }
     }
