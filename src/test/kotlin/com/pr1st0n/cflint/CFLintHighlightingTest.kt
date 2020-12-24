@@ -25,138 +25,61 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
     }
 
     fun testArgVarCheckerConflict() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("ARG_VAR_CONFLICT"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("ARG_VAR_CONFLICT"))
     }
 
     fun testArgVarCheckerMixed() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("ARG_VAR_MIXED"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("ARG_VAR_MIXED"))
     }
 
     fun testArrayNewChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("AVOID_USING_ARRAYNEW"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("AVOID_USING_ARRAYNEW"))
     }
 
     fun testBuiltInFunctionChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("AVOID_USING_ISDATE"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("AVOID_USING_ISDATE"))
     }
 
     fun testDebugAttributeChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("AVOID_USING_DEBUG_ATTR"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("AVOID_USING_DEBUG_ATTR"))
     }
 
     fun testIncludeChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("AVOID_USING_CFINCLUDE_TAG"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("AVOID_USING_CFINCLUDE_TAG"))
     }
 
     fun testNestedCFOutput() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("NESTED_CFOUTPUT"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("NESTED_CFOUTPUT"))
     }
 
     fun testOutputParmMissing() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("OUTPUT_ATTR"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("OUTPUT_ATTR"))
     }
 
     fun testSelectStarChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("SQL_SELECT_STAR"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("SQL_SELECT_STAR"))
     }
 
     fun testStructNewChecker() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("AVOID_USING_STRUCTNEW"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("AVOID_USING_STRUCTNEW"))
     }
 
     fun testVarScoper() {
-        val state = CFLintState()
-        state.setCustomRules(listOf("MISSING_VAR"))
-        try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
-        } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
-        }
+        doTest(listOf("MISSING_VAR"))
     }
 
     fun testUnusedLocalVar() {
+        doTest(listOf("UNUSED_LOCAL_VARIABLE"))
+    }
+
+    private fun doTest(rules: List<String>) {
         val state = CFLintState()
-        state.setCustomRules(listOf("UNUSED_LOCAL_VARIABLE"))
+        state.setCustomRules(rules)
         try {
             CFLintConfiguration.getInstance(project).loadState(state)
-            doTest()
+            myFixture.testHighlighting(true, false, true, getTestName(true) + ".cfm")
         } finally {
             CFLintConfiguration.getInstance(project).loadState(myState)
         }
-    }
-
-    private fun doTest() {
-        myFixture.testHighlighting(true, false, true, getTestName(true) + ".cfm")
     }
 }
