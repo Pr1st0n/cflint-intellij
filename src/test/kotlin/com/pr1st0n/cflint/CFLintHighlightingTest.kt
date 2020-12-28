@@ -40,8 +40,24 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
         doTest(listOf("AVOID_USING_ISDATE"))
     }
 
+    fun testComponentHintChecker() {
+        doTest(listOf("COMPONENT_HINT_MISSING"))
+    }
+
     fun testDebugAttributeChecker() {
         doTest(listOf("AVOID_USING_DEBUG_ATTR"))
+    }
+
+    fun testFunctionTypeCheckerAny() {
+        doTest(listOf("FUNCTION_TYPE_ANY"))
+    }
+
+    fun testFunctionTypeCheckerMissing() {
+        doTest(listOf("FUNCTION_TYPE_MISSING"))
+    }
+
+    fun testGlobalVarChecker() {
+        doTest(listOf("GLOBAL_VAR"))
     }
 
     fun testIncludeChecker() {
@@ -56,20 +72,32 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
         doTest(listOf("OUTPUT_ATTR"))
     }
 
+    fun testQueryParamChecker() {
+        doTest(listOf("CFQUERYPARAM_REQ"))
+    }
+
     fun testSelectStarChecker() {
         doTest(listOf("SQL_SELECT_STAR"))
+    }
+
+    fun testStructKeyChecker() {
+        doTest(listOf("UNQUOTED_STRUCT_KEY", "STRUCT_ARRAY_NOTATION"))
     }
 
     fun testStructNewChecker() {
         doTest(listOf("AVOID_USING_STRUCTNEW"))
     }
 
-    fun testVarScoper() {
-        doTest(listOf("MISSING_VAR"))
+    fun testUnusedArgumentChecker() {
+        doTest(listOf("UNUSED_METHOD_ARGUMENT"))
     }
 
     fun testUnusedLocalVar() {
         doTest(listOf("UNUSED_LOCAL_VARIABLE"))
+    }
+
+    fun testVarScoper() {
+        doTest(listOf("MISSING_VAR"))
     }
 
     private fun doTest(rules: List<String>) {

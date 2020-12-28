@@ -82,27 +82,33 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
             }
             else -> {
                 // Issue line is 1 based, however document line is 0 based
-                val indexOfExpression: Int?
                 val documentLine = issue.line - 1
                 var startOffset = document?.getLineStartOffset(documentLine) ?: issue.offset
-                val endOffset = document?.getLineEndOffset(documentLine) ?: issue.offset + issue.length
+                var endOffset = document?.getLineEndOffset(documentLine) ?: issue.offset + issue.length
                 val lineText = document?.getText(TextRange.create(startOffset, endOffset))
                 var offsetLength = issue.length
+                var indexOfExpression: Int? = null
 
-                if (issue.expression != null) {
+                if (issue.variable != null && offsetLength > 0) {
+                    indexOfExpression = lineText?.indexOf(issue.variable, 0, true)
+                } else if (issue.expression != null) {
                     // Use only 1st line in case of multiline expression to find index of it in lineText
                     val expression = issue.expression.substringBefore("\n")
                     indexOfExpression = lineText?.indexOf(expression, 0, true)
                     offsetLength = issue.expression.length
-                } else {
-                    indexOfExpression = lineText?.indexOf(issue.variable, 0, true)
                 }
 
                 if (indexOfExpression != null && indexOfExpression > 0) {
                     startOffset += indexOfExpression
                 }
 
-                TextRange.create(startOffset, startOffset + offsetLength)
+                endOffset = startOffset + offsetLength
+
+                if (document != null && endOffset > document.textLength) {
+                    endOffset = document.textLength
+                }
+
+                TextRange.create(startOffset, endOffset)
             }
         }
     }
