@@ -4,16 +4,11 @@
 
 ## [Unreleased]
 ### Added
-
+- New highlighting tests
 ### Changed
+- Improved highlighting for most of the CFLint default rules
+- Synced changes from [JetBrains/intellij-platform-plugin-template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 ## [0.1.2]
 ### Fixed
 - Logger compatibility issue
