@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.2.0]
+### Added
 - New highlighting tests
 ### Changed
 - Improved highlighting for most of the CFLint default rules
