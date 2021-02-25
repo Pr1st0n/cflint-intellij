@@ -4,16 +4,10 @@
 
 ## [Unreleased]
 ### Added
+- `properties` shorthand function for accessing `gradle.properties` in a cleaner way
 
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 ## [0.2.0]
 ### Added
 - New highlighting tests
