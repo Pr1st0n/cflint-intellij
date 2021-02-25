@@ -3,6 +3,7 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+## [0.2.1]
 ### Added
 - `properties` shorthand function for accessing `gradle.properties` in a cleaner way
 
