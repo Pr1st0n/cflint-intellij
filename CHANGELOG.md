@@ -9,7 +9,7 @@
 ### Changed
 - Upgraded `org.jetbrains.intellij` to `0.7.2`
 - Upgraded `org.jetbrains.changelog` to `1.1.2`
-- Upgraded `Gradle Wrapper` to `6.8.2-bin`
+- Upgraded `Gradle Wrapper` to `6.8.3-bin`
 - Upgraded `org.jetbrains.kotlin.jvm` to `1.4.30`
 - Upgraded `org.jlleitschuh.gradle.ktlint` to `10.0.0`
 - Upgraded `log4j-api` to `2.14.0`
