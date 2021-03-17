@@ -7,11 +7,13 @@ import com.cflint.config.ConfigUtils
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import java.io.File
 
 @State(name = "CFLintConfiguration")
 class CFLintConfiguration : PersistentStateComponent<CFLintState> {
+    private val logger = Logger.getInstance("CFLint.CFLintInspection")
     private var config = CFLintConfig()
     private var initialized = false
     private var myState = CFLintState()
@@ -53,6 +55,7 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
                 this.config.includes = retVal.includes
             }
         } catch (e: Exception) {
+            logger.error("Invalid CFLint Configuration", e.message)
             return false
         }
 

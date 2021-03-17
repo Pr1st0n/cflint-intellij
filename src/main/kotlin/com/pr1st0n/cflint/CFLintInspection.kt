@@ -49,9 +49,9 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
                 }
             }
         } catch (e: CFLintScanException) {
-            logger.error("Unexpected CFLint error during file scan")
+            logger.error("Unexpected CFLint error during file scan", e.message)
         } catch (e: CFLintConfigurationException) {
-            logger.error("Invalid CFLint Configuration")
+            logger.error("Invalid CFLint Configuration", e.message)
         }
 
         return descriptors.toArray(ProblemDescriptor.EMPTY_ARRAY)
