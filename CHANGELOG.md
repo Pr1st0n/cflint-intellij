@@ -3,6 +3,9 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Changed
+- Upgraded `org.jetbrains.kotlin.jvm` to `1.4.31`
+
 ## [0.2.1]
 ### Added
 - `properties` shorthand function for accessing `gradle.properties` in a cleaner way
