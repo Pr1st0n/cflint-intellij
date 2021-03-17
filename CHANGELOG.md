@@ -7,6 +7,7 @@
 - Upgraded `org.jetbrains.kotlin.jvm` to `1.4.31`
 - Deprecated support for IU-2020.2
 - Improved logging for CFLint configuration load and file scanning failures
+- *GitHub Actions*: changed release draft creation condition to use only `main` branch
 
 ## [0.2.1]
 ### Added
