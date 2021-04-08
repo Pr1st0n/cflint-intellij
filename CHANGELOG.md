@@ -3,6 +3,7 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+## [0.2.2]
 ### Changed
 - Upgraded `org.jetbrains.kotlin.jvm` to `1.4.32`
 - Deprecated support for `IU-2020.2`
