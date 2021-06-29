@@ -3,6 +3,9 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Changed
+- Upgraded `Gradle Wrapper` to `7.0.2`
+
 ## [0.2.2]
 ### Changed
 - Upgraded `org.jetbrains.kotlin.jvm` to `1.4.32`
