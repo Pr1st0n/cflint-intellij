@@ -5,6 +5,9 @@
 ## [Unreleased]
 ### Changed
 - Upgraded `Gradle Wrapper` to `7.0.2`
+- Upgraded `actions/checkout` to `v2.3.4`
+- Upgraded `actions/upload-release-asset` to `v1.0.2`
+- Upgraded `actions/create-release` to `v1.1.4`
 
 ## [0.2.2]
 ### Changed
