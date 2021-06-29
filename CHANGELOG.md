@@ -3,6 +3,9 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Added
+- Introduced `next` branch in the root repository to make `main` always a stable one
+- Dependabot check for GitHub Actions used in [workflow files](.github/workflows)
 ### Changed
 - Upgraded `Gradle Wrapper` to `7.0.2`
 - Upgraded `actions/checkout` to `v2.3.4`
