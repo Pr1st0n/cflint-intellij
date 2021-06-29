@@ -26,7 +26,6 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    jcenter()
 }
 dependencies {
     implementation("com.github.cflint:CFLint:1.5.0")
