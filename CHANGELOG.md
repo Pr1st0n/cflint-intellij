@@ -11,7 +11,7 @@
 - Upgraded `actions/checkout` to `v2.3.4`
 - Upgraded `actions/upload-release-asset` to `v1.0.2`
 - Upgraded `actions/create-release` to `v1.1.4`
-- Updated `pluginVerifierIdeVersions` to `2020.3.4, 2021.1.1`
+- Update `pluginVerifierIdeVersions` to `2020.3.4`, `2021.1.3`, `212.4535.15`
 - Removed reference to the `jcenter()` from Gradle configuration file
 
 ## [0.2.2]
