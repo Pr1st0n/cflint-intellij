@@ -6,13 +6,32 @@
 ### Added
 - Introduced `next` branch in the root repository to make `main` always a stable one
 - Dependabot check for GitHub Actions used in [workflow files](.github/workflows)
+- Plugin Signing run configuration
+- GitHub Actions: UI Tests workflow
+- Suppress `UnusedProperty` inspection for the `kotlin.stdlib.default.dependency` in `gradle.properties`
+- Use Gradle `wrapper` task to handle Gradle updates
+- JVM compatibility version extracted to `gradle.properties` file
+- `Publish Plugin` run configuration
+
 ### Changed
-- Upgraded `Gradle Wrapper` to `7.0.2`
-- Upgraded `actions/checkout` to `v2.3.4`
-- Upgraded `actions/upload-release-asset` to `v1.0.2`
-- Upgraded `actions/create-release` to `v1.1.4`
-- Update `pluginVerifierIdeVersions` to `2020.3.4`, `2021.1.3`, `212.4535.15`
-- Removed reference to the `jcenter()` from Gradle configuration file
+- GitHub Actions: Use Java 11
+- Update `pluginVerifierIdeVersions` to `IU-2020.3.4`, `IU-2021.1.3`, `IU-212.4535.15`
+- Change since/until build to `203-212.*`
+- Upgrade Gradle Wrapper to `7.1.1`
+- Gradle – Changelog plugin configuration update
+- Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `1.5.21`
+- Dependencies - upgrade `org.jetbrains.changelog` to `1.2.1`
+- Dependencies - upgrade `org.jetbrains.intellij` to `1.1.4`
+- Dependencies (GitHub Actions) - upgrade `actions/upload-artifact` to `v2.2.4`
+- Dependencies (GitHub Actions) - upgrade `actions/cache` to `v2.1.6`
+- Trigger GitHub Actions `Build` workflows only on pushes to `main` branch or pull request to avoid duplicated checks
+- Remove reference to the `jcenter()` from Gradle configuration file
+- Dependencies (GitHub Actions) - upgrade `actions/checkout` to `v2.3.4`
+- Dependencies (GitHub Actions) - upgrade `actions/upload-release-asset` to `v1.0.2`
+- Dependencies (GitHub Actions) - upgrade `actions/create-release` to `v1.1.4`
+
+### Removed
+- Removed `detekt`/`ktlint` integration
 
 ## [0.2.2]
 ### Changed
