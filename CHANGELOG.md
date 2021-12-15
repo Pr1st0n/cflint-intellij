@@ -3,6 +3,17 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Changed
+- Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `1.6.10`
+- Dependencies - upgrade `org.jetbrains.changelog` to `1.3.1`
+- Dependencies - upgrade `org.jetbrains.intellij` to `1.3.0`
+- Dependencies - upgrade `log4j-api` to `2.16.0`
+- Dependencies - upgrade `log4j-core` to `2.16.0`
+- Dependencies (GitHub Actions) - upgrade `actions/cache` to `v2.1.7`
+- Dependencies (GitHub Actions) - upgrade `jtalk/url-health-check-action` to `v2.1`
+- Dependencies (GitHub Actions) - upgrade `actions/checkout` to `v2.4.0`
+- Dependencies (GitHub Actions) - upgrade `actions/upload-artifact` to `v2.3.0`
+
 ## [0.3.0]
 ### Added
 - Introduced `next` branch in the root repository to make `main` always a stable one
