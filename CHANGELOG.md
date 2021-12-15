@@ -3,6 +3,7 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+## [0.3.0]
 ### Added
 - Introduced `next` branch in the root repository to make `main` always a stable one
 - Dependabot check for GitHub Actions used in [workflow files](.github/workflows)
