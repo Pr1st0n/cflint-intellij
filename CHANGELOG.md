@@ -3,6 +3,8 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+
+## [0.3.1]
 ### Changed
 - Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `1.6.10`
 - Dependencies - upgrade `org.jetbrains.changelog` to `1.3.1`
@@ -69,6 +71,7 @@
 ## [0.2.0]
 ### Added
 - New highlighting tests
+
 ### Changed
 - Improved highlighting for most of the CFLint default rules
 - Synced changes from [JetBrains/intellij-platform-plugin-template](https://github.com/JetBrains/intellij-platform-plugin-template)
@@ -80,6 +83,7 @@
 ## [0.1.1]
 ### Added
 - Plugin ID
+
 ### Changed
 - Plugin icon
 
