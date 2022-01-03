@@ -3,6 +3,8 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+
+## [0.3.2]
 ### Changed
 - Update `pluginUntilBuild` to include `213.*` (2021.3.*)
 
