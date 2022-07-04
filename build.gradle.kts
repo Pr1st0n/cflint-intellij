@@ -23,7 +23,7 @@ repositories {
 }
 dependencies {
     implementation("com.github.cflint:CFLint:1.5.0")
-    implementation("org.apache.logging.log4j:log4j-api:2.17.1")
+    implementation("org.apache.logging.log4j:log4j-api:2.18.0")
     implementation("org.apache.logging.log4j:log4j-core:2.17.1")
 }
 
