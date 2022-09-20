@@ -26,7 +26,7 @@ repositories {
 dependencies {
     implementation("com.github.cflint:CFLint:1.5.0")
     implementation("org.apache.logging.log4j:log4j-api:2.17.1")
-    implementation("org.apache.logging.log4j:log4j-core:2.17.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.19.0")
 }
 
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3
