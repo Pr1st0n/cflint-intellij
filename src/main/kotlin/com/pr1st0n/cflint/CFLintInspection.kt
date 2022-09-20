@@ -84,7 +84,7 @@ class CFLintInspection : LocalInspectionTool(), UnfairLocalInspectionTool {
                 // Issue line is 1 based, however document line is 0 based
                 val documentLine = issue.line - 1
                 var startOffset = document?.getLineStartOffset(documentLine) ?: issue.offset
-                var endOffset = document?.getLineEndOffset(documentLine) ?: issue.offset + issue.length
+                var endOffset = document?.getLineEndOffset(documentLine) ?: (issue.offset + issue.length)
                 val lineText = document?.getText(TextRange.create(startOffset, endOffset))
                 var offsetLength = issue.length
                 var indexOfExpression: Int? = null

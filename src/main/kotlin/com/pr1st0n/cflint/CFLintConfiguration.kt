@@ -5,7 +5,6 @@ import com.cflint.config.CFLintConfiguration
 import com.cflint.config.CFLintPluginInfo
 import com.cflint.config.ConfigUtils
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -20,7 +19,7 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
 
     companion object {
         fun getInstance(project: Project): com.pr1st0n.cflint.CFLintConfiguration {
-            return ServiceManager.getService(project, com.pr1st0n.cflint.CFLintConfiguration::class.java)
+            return project.getService(com.pr1st0n.cflint.CFLintConfiguration::class.java)
         }
     }
 
@@ -65,7 +64,7 @@ class CFLintConfiguration : PersistentStateComponent<CFLintState> {
     private fun setCustomRules(): Boolean {
         val rules = this.myState.getCustomRules()
 
-        if (rules == null || rules.isEmpty()) {
+        if (rules.isEmpty()) {
             return false
         }
 

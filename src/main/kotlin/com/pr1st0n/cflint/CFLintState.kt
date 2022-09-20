@@ -14,7 +14,7 @@ class CFLintState {
         myLintEnabled = enabled
     }
 
-    fun getCustomRules(): List<String>? {
+    fun getCustomRules(): List<String> {
         return myCustomRules
     }
 
