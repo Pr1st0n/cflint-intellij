@@ -1,10 +1,9 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.pr1st0n.cflint</id>
     <name>CFLint</name>
     <vendor email="k0t9p@yahoo.com" url="https://github.com/Pr1st0n">Filipp Shestakov</vendor>
 
-    <!-- Product and plugin compatibility requirements -->
-    <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.java</depends>
     <depends>CFML Support</depends>
 
