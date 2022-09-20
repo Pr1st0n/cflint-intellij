@@ -6,6 +6,10 @@
 ### Changed
 - Sync with `intellij-platform-plugin-template v1.2.0`
 
+## [0.3.2]
+### Changed
+- Update `pluginUntilBuild` to include `213.*` (2021.3.*)
+
 ## [0.3.1]
 ### Changed
 - Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `1.6.10`
