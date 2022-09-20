@@ -3,6 +3,8 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+### Changed
+- Sync with `intellij-platform-plugin-template v1.2.0`
 
 ## [0.3.1]
 ### Changed
