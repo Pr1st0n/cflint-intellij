@@ -8,7 +8,7 @@
     <depends>CFML Support</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="com.pr1st0n.cflint.CFLintConfiguration"/>
+        <projectService serviceImplementation="com.pr1st0n.cflint.CFLintConfigurationService"/>
         <projectConfigurable displayName="CFLint"
                              instance="com.pr1st0n.cflint.CFLintConfigurable"
                              parentId="reference.plugin.settings.project.settings.cfml"
