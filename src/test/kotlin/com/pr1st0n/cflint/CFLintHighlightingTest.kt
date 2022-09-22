@@ -100,7 +100,9 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
         state.setCustomRules(rules)
         try {
             projectService.loadState(state)
-            myFixture.testHighlighting(true, false, true, getTestName(true) + ".cfm")
+            // Load test file.
+            myFixture.configureByFiles(getTestName(true) + ".cfm");
+            myFixture.checkHighlighting(true, false, true, true)
         } finally {
             projectService.loadState(initialState)
         }

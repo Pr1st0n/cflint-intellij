@@ -11,7 +11,7 @@ import java.io.File
 
 @State(name = "CFLintConfiguration")
 class CFLintConfigurationService : PersistentStateComponent<CFLintState> {
-    private val logger = Logger.getInstance("CFLint.CFLintInspection")
+    private val logger = Logger.getInstance("CFLint.CFLintConfigurationService")
     private var config = CFLintConfig()
     private var initialized = false
     private var myState = CFLintState()
