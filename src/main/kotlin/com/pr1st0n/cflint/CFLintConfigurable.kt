@@ -1,5 +1,6 @@
 package com.pr1st0n.cflint
 
+import com.intellij.openapi.components.service
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.panels.HorizontalLayout
@@ -25,7 +26,8 @@ class CFLintConfigurable(private val myProject: Project) : SearchableConfigurabl
     }
 
     override fun isModified(): Boolean {
-        val originalState = CFLintConfiguration.getInstance(myProject).state
+        val projectService = myProject.service<CFLintConfigurationService>()
+        val originalState = projectService.state
         val currentState = CFLintState()
 
         currentState.setEnabled(this.myLintEnabled.isSelected)
@@ -34,14 +36,16 @@ class CFLintConfigurable(private val myProject: Project) : SearchableConfigurabl
     }
 
     override fun apply() {
+        val projectService = myProject.service<CFLintConfigurationService>()
         val state = CFLintState()
         state.setEnabled(this.myLintEnabled.isSelected)
         state.setCustomRules(emptyList())
-        CFLintConfiguration.getInstance(myProject).loadState(state)
+        projectService.loadState(state)
     }
 
     override fun reset() {
-        val state = CFLintConfiguration.getInstance(myProject).state
+        val projectService = myProject.service<CFLintConfigurationService>()
+        val state = projectService.state
         this.myLintEnabled.isSelected = state.getEnabled()
     }
 

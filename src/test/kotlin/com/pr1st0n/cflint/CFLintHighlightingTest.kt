@@ -1,10 +1,9 @@
 package com.pr1st0n.cflint
 
+import com.intellij.openapi.components.service
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 class CFLintHighlightingTest : BasePlatformTestCase() {
-    private lateinit var myState: CFLintState
-
     override fun getTestDataPath(): String {
         return basePath
     }
@@ -15,13 +14,6 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
 
     override fun isCommunity(): Boolean {
         return false
-    }
-
-    @Throws(Exception::class)
-    override fun setUp() {
-        super.setUp()
-        myFixture.enableInspections(CFLintInspection())
-        myState = CFLintConfiguration.getInstance(project).state
     }
 
     fun testArgVarCheckerConflict() {
@@ -101,13 +93,18 @@ class CFLintHighlightingTest : BasePlatformTestCase() {
     }
 
     private fun doTest(rules: List<String>) {
+        myFixture.enableInspections(CFLintInspection())
+        val projectService = project.service<CFLintConfigurationService>()
+        val initialState = projectService.state
         val state = CFLintState()
         state.setCustomRules(rules)
         try {
-            CFLintConfiguration.getInstance(project).loadState(state)
-            myFixture.testHighlighting(true, false, true, getTestName(true) + ".cfm")
+            projectService.loadState(state)
+            // Load test file.
+            myFixture.configureByFiles(getTestName(true) + ".cfm");
+            myFixture.checkHighlighting(true, false, true, true)
         } finally {
-            CFLintConfiguration.getInstance(project).loadState(myState)
+            projectService.loadState(initialState)
         }
     }
 }
