@@ -3,6 +3,8 @@
 # CFLint Plugin Changelog
 
 ## [Unreleased]
+
+## [0.4.0]
 ### Changed
 - Dependencies - upgrade `log4j-api` to `2.19.0`
 - Dependencies - upgrade `log4j-core` to `2.19.0`
